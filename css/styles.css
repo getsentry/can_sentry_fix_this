@@ -1,7 +1,16 @@
+:root {
+    --apple-blue: #007AFF;
+    --apple-gray: #8E8E93;
+    --apple-gray-light: #F2F2F7;
+    --apple-label: #000000;
+    --apple-secondary-label: #3C3C43;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 body {
@@ -27,20 +36,20 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    padding: 50px 20px 10px;
+    padding: 40px 16px 8px;
     z-index: 200;
     text-align: center;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2), transparent);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 }
 
 .static-title h1 {
-    font-size: 80px;
-    font-weight: 700;
+    font-size: 72px;
+    font-weight: 600;
     color: #6e47ae;
     letter-spacing: -0.003em;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 8px rgba(255, 255, 255, 0.3);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .camera-section {
@@ -132,50 +141,42 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 120px;
+    height: 104px;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 150;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 }
 
 .capture-button {
     width: 80px;
     height: 80px;
-    border: 4px solid rgba(255, 255, 255, 0.8);
-    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
     position: relative;
 }
 
 .capture-button:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
     border-color: rgba(255, 255, 255, 1);
-    background: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
 
 .capture-button:active {
-    transform: scale(0.95);
-}
-
-.capture-button::before {
-    content: '';
-    width: 60px;
-    height: 60px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 50%;
-    transition: all 0.3s ease;
+    transform: scale(0.98);
+    transition-duration: 0.1s;
 }
 
 .camera-error {
@@ -422,64 +423,61 @@ body {
     }
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments - Apple 8-point grid */
 @media (max-width: 480px) {
     .static-title h1 {
         font-size: 36px;
     }
     
     .static-title {
-        padding: 20px 20px 15px;
+        padding: 32px 16px 8px;
     }
     
     .capture-button {
-        width: 70px;
-        height: 70px;
+        width: 72px;
+        height: 72px;
     }
     
-    .capture-button::before {
-        width: 50px;
-        height: 50px;
+    .camera-controls {
+        height: 96px;
     }
 }
 
 @media (max-width: 360px) {
     .static-title {
-        padding: 20px 15px 10px;
+        padding: 24px 16px 8px;
     }
     
     .static-title h1 {
-        font-size: 36px;
+        font-size: 40px;
     }
     
     .capture-button {
-        width: 65px;
-        height: 65px;
+        width: 64px;
+        height: 64px;
     }
     
-    .capture-button::before {
-        width: 45px;
-        height: 45px;
+    .camera-controls {
+        height: 88px;
     }
 }
 
 @media (min-width: 768px) {
     .static-title h1 {
-        font-size: 32px;
+        font-size: 80px;
     }
     
     .static-title {
-        padding: 70px 20px 25px;
+        padding: 48px 24px 8px;
     }
     
     .capture-button {
-        width: 90px;
-        height: 90px;
+        width: 88px;
+        height: 88px;
     }
     
-    .capture-button::before {
-        width: 70px;
-        height: 70px;
+    .camera-controls {
+        height: 112px;
     }
 }
 
