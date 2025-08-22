@@ -85,19 +85,21 @@
 
         <div class="processing hidden" id="processing">
             <div class="spinner"></div>
-            <p>Burning down some trees in Amazon to power this</p>
+            <p>Burning down some trees to power the AI</p>
             <small><i>totally worth it... right?</i></small>
         </div>
 
         <div class="result-section hidden" id="resultSection">
-            <button class="close-result-btn" id="closeResultBtn">✕</button>
             <i><h3>Photo</h3></i>
             <img id="resultImage" class="result-image" alt="Framed photo">
             <h4>Result</h4>
-            <br/>
-            <button id="downloadBtn" class="download-button">
-                Save
-            </button>
+            
+            <div class="result-buttons">
+                <button class="close-result-btn" id="closeResultBtn">✕</button>
+                <button id="downloadBtn" class="download-button">
+                    Save
+                </button>
+            </div>
         </div>
 
         <div id="errorMessage" class="error hidden"></div>
