@@ -119,9 +119,9 @@ def analyze_image_with_gemini(image):
 def upload_to_gcs(image, filename):
     """Upload the processed image to Google Cloud Storage"""
     try:
-        # Save image to temporary file
-        with tempfile.NamedTemporaryFile(suffix='.jpg', delete=False) as temp_file:
-            image.save(temp_file.name, 'JPEG', quality=95)
+        # Save image to temporary file with WebP for better compression
+        with tempfile.NamedTemporaryFile(suffix='.webp', delete=False) as temp_file:
+            image.save(temp_file.name, 'WEBP', quality=85, optimize=True)
             temp_file_path = temp_file.name
         
         # Upload to GCS
@@ -200,7 +200,7 @@ def process_photo(request):
         # Generate unique filename
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         unique_id = str(uuid.uuid4())[:8]
-        filename = f"framed_photos/{timestamp}_{unique_id}_{frame_type}.jpg"
+        filename = f"framed_photos/{timestamp}_{unique_id}_{frame_type}.webp"
         
         # Upload to Google Cloud Storage
         image_url = upload_to_gcs(framed_image, filename)
