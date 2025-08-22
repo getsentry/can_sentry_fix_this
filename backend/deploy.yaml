@@ -1,0 +1,9 @@
+runtime: python311
+entry_point: process_photo
+memory: 2GB
+timeout: 540s
+available_memory_mb: 2048
+source: .
+environment_variables:
+  GEMINI_API_KEY: "YOUR_GEMINI_API_KEY_HERE"
+  GCS_BUCKET_NAME: "YOUR_GCS_BUCKET_NAME_HERE"
