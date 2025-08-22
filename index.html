@@ -35,6 +35,33 @@
     <!-- Camera Permissions -->
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=()">
     
+    <!-- DNS Prefetch for API -->
+    <link rel="dns-prefetch" href="https://us-central1-jeffreyhung-test.cloudfunctions.net">
+    
+    <!-- Critical CSS for above-the-fold content -->
+    <style>
+        .app-container { 
+            background: #9e86ff; 
+            height: 100vh; 
+            width: 100%; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        .static-title { 
+            position: absolute; 
+            top: 0; 
+            width: 100%; 
+            z-index: 200; 
+            text-align: center; 
+        }
+        .static-title h1 { 
+            font-size: 72px; 
+            font-weight: 600; 
+            color: #6e47ae; 
+            margin: 0; 
+        }
+    </style>
+    
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>

@@ -8,10 +8,30 @@ class InstaFrameApp {
             framesApplied: 0,
             aiAnalyses: 0
         };
+        
+        // Performance optimization: batch DOM operations
         this.initializeElements();
         this.bindEvents();
         this.loadStats();
-        this.requestCameraAccess();
+        
+        // Register service worker for caching
+        this.registerServiceWorker();
+        
+        // Defer camera access to next tick for smoother page load
+        requestAnimationFrame(() => {
+            this.requestCameraAccess();
+        });
+    }
+
+    async registerServiceWorker() {
+        if ('serviceWorker' in navigator) {
+            try {
+                const registration = await navigator.serviceWorker.register('/sw.js');
+                console.log('Service Worker registered:', registration);
+            } catch (error) {
+                console.log('Service Worker registration failed:', error);
+            }
+        }
     }
 
     initializeElements() {
@@ -128,7 +148,48 @@ class InstaFrameApp {
         canvas.height = video.videoHeight;
         context.drawImage(video, 0, 0);
 
-        this.photoData = canvas.toDataURL('image/jpeg', 0.8);
+        // Compress the photo before processing
+        this.compressPhoto(canvas);
+    }
+
+    compressPhoto(canvas) {
+        const maxWidth = 1024;
+        const maxHeight = 1024;
+        const quality = 0.75;
+
+        let { width, height } = canvas;
+
+        // Calculate new dimensions while maintaining aspect ratio
+        if (width > height) {
+            if (width > maxWidth) {
+                height = (height * maxWidth) / width;
+                width = maxWidth;
+            }
+        } else {
+            if (height > maxHeight) {
+                width = (width * maxHeight) / height;
+                height = maxHeight;
+            }
+        }
+
+        // Create a new canvas with compressed dimensions
+        const compressedCanvas = document.createElement('canvas');
+        const compressedContext = compressedCanvas.getContext('2d');
+        
+        compressedCanvas.width = width;
+        compressedCanvas.height = height;
+
+        // Use high-quality image smoothing
+        compressedContext.imageSmoothingEnabled = true;
+        compressedContext.imageSmoothingQuality = 'high';
+
+        // Draw the image with new dimensions
+        compressedContext.drawImage(canvas, 0, 0, width, height);
+
+        // Convert to compressed JPEG
+        this.photoData = compressedCanvas.toDataURL('image/jpeg', quality);
+        
+        // Process immediately after compression
         this.processPhoto();
     }
 
@@ -137,9 +198,15 @@ class InstaFrameApp {
             this.processing.classList.remove('hidden');
             this.showError('');
 
-            // Convert base64 to blob
-            const response = await fetch(this.photoData);
-            const blob = await response.blob();
+            // Convert base64 to blob (more efficient than fetch)
+            const byteString = atob(this.photoData.split(',')[1]);
+            const mimeString = this.photoData.split(',')[0].split(':')[1].split(';')[0];
+            const ab = new ArrayBuffer(byteString.length);
+            const ia = new Uint8Array(ab);
+            for (let i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+            const blob = new Blob([ab], { type: mimeString });
 
             // Create FormData
             const formData = new FormData();
@@ -173,8 +240,13 @@ class InstaFrameApp {
     }
 
     displayResult(imageUrl, frameStyle, analysisResult) {
-        this.resultImage.src = imageUrl;
-        this.resultSection.classList.remove('hidden');
+        // Preload the result image for faster display
+        const img = new Image();
+        img.onload = () => {
+            this.resultImage.src = imageUrl;
+            this.resultSection.classList.remove('hidden');
+        };
+        img.src = imageUrl;
         
         // Update frame style badge based on analysis result
         const styleNames = {
@@ -210,7 +282,28 @@ class InstaFrameApp {
 
     closeResult() {
         this.resultSection.classList.add('hidden');
-        this.requestCameraAccess(); // Restart camera
+        
+        // Clean up result image to free memory
+        this.resultImage.src = '';
+        
+        // Restart camera
+        this.requestCameraAccess();
+    }
+
+    // Memory cleanup method
+    cleanupResources() {
+        if (this.stream) {
+            this.stream.getTracks().forEach(track => track.stop());
+            this.stream = null;
+        }
+        
+        // Clear large data
+        this.photoData = null;
+        
+        // Clear result image
+        if (this.resultImage) {
+            this.resultImage.src = '';
+        }
     }
 
     updateStats(frameStyle) {
