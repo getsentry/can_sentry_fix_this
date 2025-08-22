@@ -1,0 +1,58 @@
+{
+  "name": "Can Sentry Fix This?",
+  "short_name": "SentryFix",
+  "description": "Figure out if Sentry can help",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#9e86ff",
+  "theme_color": "#6e47ae",
+  "orientation": "portrait",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "img/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "img/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "img/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "img/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "img/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["photo", "utilities", "productivity"],
+  "lang": "en",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Take Photo",
+      "short_name": "Camera",
+      "description": "Open camera to analyze a photo",
+      "url": "/",
+      "icons": [
+        {
+          "src": "img/favicon-32x32.png",
+          "sizes": "32x32"
+        }
+      ]
+    }
+  ]
+}
